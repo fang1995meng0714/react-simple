@@ -24,6 +24,21 @@ function createComponent(comp, props) {
     return inst;
 }
 
+function renderComponent(comp) {
+    let base;
+    const renderer = comp.render();
+    console.log(renderer);
+    base = _render(renderer);
+    comp.base = base;
+}
+
+function setComponentProps(comp, props) {
+    // 设置组件属性
+    comp.props = props;
+    // 渲染组件
+    renderComponent(comp);
+}
+
 function _render(vnode) {
     if(vnode === undefined || vnode === null || typeof vnode === "boolean" || vnode === "") return;
 
@@ -39,9 +54,9 @@ function _render(vnode) {
         const comp = createComponent(vnode.tag, vnode.attrs);
         console.log(comp)
         // 设置组件属性
-        // setComponentProps(comp, vnode.attrs);
+        setComponentProps(comp, vnode.attrs);
         
-        // return comp.base;
+        return comp.base;
     }
 
     if(typeof vnode === "object") {
